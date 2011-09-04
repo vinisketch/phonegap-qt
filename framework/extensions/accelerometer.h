@@ -6,25 +6,25 @@
 
 QTM_USE_NAMESPACE
 
+class Accelerometer : public QObject
+{
+  Q_OBJECT
 
-class Accelerometer : public QObject {
+  public:
+    explicit Accelerometer (QObject *parent = 0);
+    ~Accelerometer ();
 
-    Q_OBJECT
+    Q_INVOKABLE QVariantMap getCurrentAcceleration() const;
 
-    public:
-        explicit Accelerometer(QObject *parent = 0);
+  protected slots:
+    void updateSensor();
 
-        Q_INVOKABLE QVariantMap getCurrentAcceleration() const;
+  private:
+    QAccelerometer *m_accelerometer;
 
-    protected slots:
-        void updateSensor();
-
-    private:
-        QAccelerometer *m_accelerometer;
-
-        double m_x;
-        double m_y;
-        double m_z;
+    double m_x;
+    double m_y;
+    double m_z;
 };
 
 #endif // ACCELEROMETER_H
