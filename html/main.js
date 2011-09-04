@@ -1,3 +1,22 @@
+var testContact = function() {
+  function onSuccess (contacts)
+  {
+    alert('Found ' + contacts.length + ' contacts.');
+  };
+  
+  function onError (contactError)
+  {
+    alert('onError!');
+  };
+  
+  // find all contacts with 'Bob' in any name field
+  var options = new ContactFindOptions ();
+  options.filter = "Thevenin"; 
+  options.filter = ""; 
+  var fields = ["displayName", "name"];
+  navigator.contacts.find (fields, onSuccess, onError, options);
+};
+
 var deviceInfo = function() {
     document.getElementById("platform").innerHTML = device.platform;
     document.getElementById("version").innerHTML = device.version;
@@ -8,19 +27,66 @@ var deviceInfo = function() {
     document.getElementById("colorDepth").innerHTML = screen.colorDepth;
 };
 
+function updateLocation (a)
+{
+  document.getElementById('latitude').innerHTML = roundNumber(a.latitude);
+  document.getElementById('longitude').innerHTML = roundNumber(a.longitude);
+  document.getElementById('altitude').innerHTML = roundNumber(a.altitude);
+  document.getElementById('accuracy').innerHTML = roundNumber(a.accuracy);
+}
+
+var locationFail = function() 
+{
+  updateLocation({
+    latitude : "-1",
+    longitude : "-1",
+    altitude : "-1",
+    accuracy : "-1"
+  });
+  console.error ("getLocation locationFail");
+};
+
+var locationWatch = null;
+
 var getLocation = function()
 {
-  var suc = function(p)
+  var geo = new Geolocation ();
+
+  geo.getCurrentPosition (updateLocation, locationFail, {});
+};
+
+var toggleLocatin = function ()
+{
+  if (!window.geo)
   {
-    alert(p.coords.latitude + " " + p.coords.longitude);
-  };
-  var locFail = function() {
-  };
-  navigator.geolocation.getCurrentPosition(suc, locFail);
+    window.geo = new Geolocation ();
+    //geo = navigator.geolocation;
+  }
+  updateLocation({
+    latitude : "",
+    longitude : "",
+    altitude : "",
+    accuracy : ""
+  });
+    
+  if (locationWatch !== null)
+  {
+    window.geo.clearWatch (locationWatch);
+    locationWatch = null;
+  }
+  else
+  {
+    var options = {};
+    options.frequency = 100;
+    locationWatch = window.geo.watchPosition (
+      getLocation, locationFail, options);
+  }
 };
 
 var beep = function() {
-    navigator.notification.beep(2);
+  testContact ();
+  
+ //   navigator.notification.beep(2);
 };
 
 var vibrate = function() {
@@ -78,7 +144,7 @@ var toggleCompass = function ()
 {
   if (compassWatch !== null)
   {
-    navigator.compass.clearWatch (accelerationWatch);
+    navigator.compass.clearWatch (compassWatch);
     updateCompass({
       azimuth : "",
       calibrationLevel : ""
@@ -90,7 +156,8 @@ var toggleCompass = function ()
     var options = {};
     options.frequency = 100;
     compassWatch = navigator.compass.watchHeading (
-      updateCompass, function (ex) {
+      updateCompass, function (ex)
+    {
       alert("compas fail (" + ex.name + ": " + ex.message + ")");
     }, options);
   }
@@ -171,12 +238,11 @@ function check_network() {
 }
 
 function init() {
-  debug.log ("init");
-  debug.error ("init");
-  debug.warn ("init");
-    // the next line makes it impossible to see Contacts on the HTC Evo since it
-    // doesn't have a scroll button
-    // document.addEventListener("touchmove", preventBehavior, false);
-//    document.addEventListener("deviceready", deviceInfo, true);
-    setTimeout (deviceInfo, 500);
+  console.log ("init");
+  console.error ("init");
+  console.warn ("init");
+  // the next line makes it impossible to see Contacts on the HTC Evo since it
+  // doesn't have a scroll button
+  document.addEventListener("touchmove", preventBehavior, false);
+  document.addEventListener("deviceready", deviceInfo, true);
 }

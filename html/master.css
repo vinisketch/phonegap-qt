@@ -36,6 +36,7 @@
   	list-style-type:none;
   	padding-left:10px;
   	overflow:auto;
+  	display: inline;
   }
 
   #stage.theme > dl > dt{
