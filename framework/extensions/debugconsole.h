@@ -3,15 +3,14 @@
 
 #include <QObject>
 
+class DebugConsole : public QObject
+{
+  Q_OBJECT
 
-class DebugConsole : public QObject {
+  public:
+    DebugConsole (QObject *parent = 0);
 
-    Q_OBJECT
-
-    public:
-        DebugConsole(QObject *parent = 0);
-
-        Q_INVOKABLE void log(const QString &message);
+    Q_INVOKABLE void log (const QString &message);
 };
 
 #endif // DEBUGCONSOLE_H

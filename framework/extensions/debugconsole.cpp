@@ -3,11 +3,11 @@
 #include <QDebug>
 
 
-DebugConsole::DebugConsole(QObject *parent) :
-    QObject(parent) {
+DebugConsole::DebugConsole(QObject *parent) : QObject(parent)
+{
 }
 
-void DebugConsole::log(const QString &message) {
-
-    qDebug() << message;
+void DebugConsole::log (const QString &message)
+{
+  qDebug() << message;
 }
