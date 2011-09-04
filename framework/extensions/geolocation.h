@@ -11,8 +11,8 @@
 #include <QObject>
 #include <QVariantMap>
 
-#include <qgeopositioninfo.h>
-#include <qgeopositioninfosource.h>
+#include <QGeoPositionInfo>
+#include <QGeoPositionInfoSource>
 
 QTM_USE_NAMESPACE
 
