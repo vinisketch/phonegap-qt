@@ -21,12 +21,17 @@ class DeviceInfo : public QObject {
         const QString &platform() const;
         const QString &uuid() const;
         const QString &version() const;
+        const QString &phonegap() const;
+
+    private:
+        void setOsVersion ();
 
     private:
         QString m_name;
         QString m_platform;
         QString m_uuid;
         QString m_version;
+        QString m_phonegap;
 };
 
 #endif // DEVICEINFO_H
