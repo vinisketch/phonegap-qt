@@ -12,13 +12,14 @@
 
 PhoneGapWindow::PhoneGapWindow(QWidget *parent) : QMainWindow(parent)
 {
-    webView = new QWebView(this);
-    webView->setPage(new WebPage());
+    webView = new QWebView (this);
+    webView->setPage (new WebPage ());
+    webView->setVisible (false);
 
     setCentralWidget(webView);
     webView->page()->settings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls, true);
 
-    new Extensions(webView);
+    new Extensions (webView);
 
     QDir templateDir = QDir::current();
 #ifdef Q_WS_SIMULATOR
